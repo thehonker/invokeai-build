@@ -106,4 +106,4 @@ jobs:
             cwd://${{ steps.meta.outputs.bake-file }}
           targets: build
           set: |
-            target.args.GPU_DRIVER="${{ matrix.torch-backend }}"
+            build.args.GPU_DRIVER="${{ matrix.torch-backend }}"
