@@ -100,7 +100,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          source: .
+          source: ${{ github.workspace }}
           push: true
           files: |
             "./docker-bake.hcl"
