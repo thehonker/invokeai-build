@@ -2,12 +2,11 @@
 
 echo "entrypoint.sh start"
 
-echo "activating venv at ${HOME}/invokeai"
-
+echo "Ensuring ${HOME} exists, cd to it"
 cd "${HOME}" || exit 1
 
-source "${HOME}/venv/bin/activate"
+echo "Activate venv at ${HOME}/.venv"
+source "${HOME}/.venv/bin/activate"
 
-echo "launching invokeai with args: $@"
-
+echo "Launch InvokeAI with \"exec invokeai-web $@\""
 exec invokeai-web "${@}"
