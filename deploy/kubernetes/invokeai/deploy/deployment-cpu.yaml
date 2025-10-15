@@ -1,0 +1,131 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: invokeai
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: invokeai
+  namespace: invokeai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: invokeai
+  template:
+    metadata:
+      labels:
+        app: invokeai
+    spec:
+      containers:
+      - name: invokeai
+        image: ghcr.io/thehonker/invokeai:cpu-latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9090
+        env:
+        - name: ROCR_VISIBLE_DEVICES
+          value: "0"
+        - name: HCC_AMDGPU_TARGET
+          value: "gfx906"
+        - name: HSA_OVERRIDE_GFX_VERSION
+          value: "9.0.6"
+        - name: INVOKEAI_HOST
+          value: "0.0.0.0"
+        - name: INVOKEAI_PORT
+          value: "9090"
+        - name: INVOKEAI_ROOT
+          value: "/invokeai"
+        - name: HUGGING_FACE_HUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: invokeai-hf-token
+              key: token
+        volumeMounts:
+        - mountPath: "/invokeai"
+          name: invokeai-data
+      - name: alpine-debug
+        image: docker.io/alpine:latest
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        command:
+        - /bin/sh
+        - -c
+        - |
+          tail -f /dev/null
+        volumeMounts:
+        - mountPath: "/invokeai"
+          name: invokeai-data
+      volumes:
+      - name: invokeai-data
+        persistentVolumeClaim:
+          claimName: invokeai-data
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: invokeai-data
+  namespace: invokeai
+spec:
+  storageClassName: ssdpool-zfs
+  resources:
+    requests:
+      storage: 128Gi
+  accessModes:
+  - ReadWriteMany
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: invokeai
+  namespace: invokeai
+spec:
+  type: ClusterIP
+  selector:
+    app: invokeai
+  ports:
+  - name: "http"
+    port: 9090
+    targetPort: 9090
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: invokeai-thegoos-cloud
+  namespace: invokeai
+spec:
+  commonName: invokeai.thegoos.cloud
+  secretName: invokeai-thegoos-cloud-ingress-tls-cert
+  dnsNames:
+  - invokeai.thegoos.cloud
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod-dns
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: invokeai-thegoos-cloud
+  namespace: invokeai
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`invokeai.thegoos.cloud`)
+    middlewares:
+    - name: authentik
+      namespace: authentik
+    services:
+    - name: invokeai
+      port: 9090
+  tls:
+    secretName: invokeai-thegoos-cloud-ingress-tls-cert

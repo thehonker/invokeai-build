@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: invokeai-hf-token
+  namespace: invokeai
+type: Opaque
+stringData:
+  token: my-hf-token

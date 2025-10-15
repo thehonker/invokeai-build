@@ -76,7 +76,7 @@ jobs:
         run: |
           git clone --depth=20 --single-branch --branch main https://github.com/invoke-ai/InvokeAI.git "${{ github.workspace }}/src/invokeai"
           LAST_TAG="$(cd "${{ github.workspace }}/src/invokeai" && git describe --tags --abbrev=0)"
-          echo "${LAST_TAG}" >> "$GITHUB_ENV"
+          echo "LAST_TAG=${LAST_TAG}" >> "$GITHUB_ENV"
           cd "${{ github.workspace }}/src/invokeai"
           git checkout "${LAST_TAG}"
           for patch in "${{ github.workspace }}/patches/${{ matrix.torch-backend }}/"*.patch; do
