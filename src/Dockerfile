@@ -18,7 +18,6 @@ RUN set -exu \
     wget \
     git \
     python3 \
-    python3-full \
     python3-venv \
     python3-pip \
     pipx \
