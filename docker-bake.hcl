@@ -6,8 +6,7 @@ target "build" {
   context = "./src/"
   dockerfile = "./Dockerfile"
   platforms = [
-    "linux/amd64",
-    "linux/arm64",
+    "linux/amd64"
   ]
   secret = [
     "type=env,id=GITHUB_TOKEN"

@@ -28,8 +28,6 @@ jobs:
         - cu128
     runs-on: ubuntu-latest
     name: ${{ matrix.torch-backend }}
-    env:
-      PLATFORMS: 'linux/amd64'
     timeout-minutes: 120
     permissions:
       contents: read
