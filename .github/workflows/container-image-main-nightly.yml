@@ -75,6 +75,7 @@ jobs:
         run: |
           git clone --depth=1 --single-branch --branch main https://github.com/invoke-ai/InvokeAI.git "${{ github.workspace }}/src/invokeai"
           echo "LAST_COMMIT_SHORTHASH=$(cd "${{ github.workspace }}/src/invokeai" && git --no-pager log -n 1 --pretty=format:"%h")" >> "$GITHUB_ENV"
+          cd "${{ github.workspace }}/src/invokeai"
           for patch in "${{ github.workspace }}/patches/${{ matrix.torch-backend }}/"*.patch; do
             if test -f "$patch"; then
               echo "Applying patch $patch"
