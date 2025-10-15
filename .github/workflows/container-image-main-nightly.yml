@@ -24,6 +24,7 @@ jobs:
         torch-backend:
         - cpu
         - rocm6.3
+        - rocm7.0
         - cu126
         - cu128
     runs-on: ubuntu-latest
