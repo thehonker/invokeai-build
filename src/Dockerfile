@@ -2,6 +2,10 @@
 
 FROM docker.io/ubuntu:24.04
 
+ARG GPU_DRIVER
+
+ENV GPU_DRIVER="${GPU_DRIVER}"
+
 USER root
 
 RUN set -exu \
@@ -45,7 +49,9 @@ RUN set -exu \
   && pipx install uv \
   && $HOME/.local/bin/uv venv --relocatable --prompt invoke --python 3.12 --python-preference only-managed .venv \
   && source .venv/bin/activate \
-  && $HOME/.local/bin/uv pip install --upgrade "invokeai @ ./invokeai" --python 3.12 --python-preference only-managed --torch-backend=rocm6.3 --force-reinstall
+  && $HOME/.local/bin/uv pip install --upgrade "invokeai @ ./invokeai" --python 3.12 --python-preference only-managed --torch-backend="${GPU_DRIVER}" --force-reinstall \
+  && deactivate \
+  && rm -rf $HOME/invokeai
 
 ENTRYPOINT ["/bin/bash"]
 CMD ["/home/invokeai/entrypoint.sh"]

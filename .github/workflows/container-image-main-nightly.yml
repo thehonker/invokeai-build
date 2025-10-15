@@ -1,25 +1,36 @@
-name: InvokeAI image - master branch - nightly - rocm
+name: InvokeAI Image Build - Main Branch - Nightly
 on:
   push:
     branches:
       - main
   schedule:
+    # 00:00 every day
     - cron: "0 0 * * *"
   workflow_dispatch: {}
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: thehonker/invokeai
-  GPU: "rocm"
 
 concurrency:
-  group: "invokeai-rocm"
+  group: "invokeai"
   cancel-in-progress: false
 
 jobs:
   build-and-push:
+    strategy:
+      fail-fast: false
+      matrix:
+        torch-backend:
+        - cpu
+        - rocm6.3
+        - cu126
+        - cu128
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    name: ${{ matrix.torch-backend }}
+    env:
+      PLATFORMS: 'linux/amd64'
+    timeout-minutes: 120
     permissions:
       contents: read
       packages: write
@@ -65,25 +76,35 @@ jobs:
       - name: Clone invokeai repo, apply any patches
         run: |
           git clone --depth=1 --single-branch --branch main https://github.com/invoke-ai/InvokeAI.git src/invokeai
+          echo "LAST_COMMIT_SHORTHASH=$(cd src/invokeai && git --no-pager log -n 1 --pretty=format:"%h")" >> "$GITHUB_ENV"
+          for patch in ./patches/${{ matrix.torch-backend }}/*.patch; do
+            if test -f "$patch"; then
+              echo "Applying patch $patch"
+              git -C src/invokeai apply "$patch"
+            fi
+          done
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
           tags: |
-            type=raw,value=latest,priority=1000,prefix=rocm-
-            type=schedule,enable=true,priority=900,pattern={{date 'YYYYMMDD'}},prefix=rocm-
+            type=raw,value=latest,priority=1000,prefix=${{ matrix.torch-backend }}-
+            type=schedule,enable=true,priority=900,pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.torch-backend }}-
+            type=raw,value=${{ env.LAST_COMMIT_HASH }},priority=800,prefix=${{ matrix.torch-backend }}-
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
+      - name: Build and Push Image
+        uses: docker/bake-action@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          context: src/
-          file: src/Containerfile.rocm
-          platforms: linux/amd64
+          source: ./src/
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          files: |
+            ./docker-bake.hcl
+            cwd://${{ steps.meta.outputs.bake-file }}
+          targets: build
+          set: |
+            target.args.GPU_DRIVER="${{ matrix.torch-backend }}"
