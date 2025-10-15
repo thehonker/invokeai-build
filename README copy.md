@@ -1,2 +1,0 @@
-# comfyui-containerized
-comfyui, containerized
