@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM docker.io/ubuntu:24.04
 
 USER root
@@ -36,13 +38,13 @@ COPY ./entrypoint.sh /home/invokeai/entrypoint.sh
 USER invokeai
 WORKDIR /home/invokeai
 
+SHELL ["/bin/bash", "-c"]
+
 RUN set -exu \
   && export DEBIAN_FRONTEND=noninteractive \
   && pipx install uv \
-  && echo "export \"PATH=$HOME/.local/bin:$PATH\"" | tee -a $HOME/.bashrc \
-  && . $HOME/.bashrc \
-  && uv venv --relocatable --prompt invoke --python 3.12 --python-preference only-managed .venv \
-  && . .venv/bin/activate \
+  && $HOME/.local/bin/uv venv --relocatable --prompt invoke --python 3.12 --python-preference only-managed .venv \
+  && source .venv/bin/activate \
   && uv pip install --upgrade "invokeai @ ./invokeai" --python 3.12 --python-preference only-managed --torch-backend=rocm6.3 --force-reinstall
 
 ENTRYPOINT ["/bin/bash"]
