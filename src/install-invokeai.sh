@@ -16,7 +16,7 @@ case $GPU_DRIVER in
     TORCH_INDEX_URL=https://download.pytorch.org/whl/cu128
     ;;
   cu130)
-    TORCH_INDEX_URL=https://download.pytorch.org/whl/cu130
+    TORCH_INDEX_URL=https://download.pytorch.org/whl/nightly/cu130
     ;;
   rocm6.3)
     TORCH_INDEX_URL=https://download.pytorch.org/whl/rocm6.3
