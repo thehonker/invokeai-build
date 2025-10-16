@@ -6,11 +6,13 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack use pnpm@10.x && corepack enable
 
 WORKDIR /build
-COPY ./invokeai/invokeai/frontend/web/ ./
+COPY --chown=node:node ./invokeai/invokeai/frontend/web/ ./
 RUN pnpm install --frozen-lockfile
 RUN npx vite build
 
 FROM docker.io/ubuntu:24.04
+
+SHELL ["/bin/bash", "-c"]
 
 ARG GPU_DRIVER
 
@@ -58,13 +60,11 @@ RUN set -exu \
 # invokeai repo assumed to have been cloned for us
 COPY ./entrypoint.sh /entrypoint.sh
 COPY --chown=invokeai:invokeai ./invokeai /home/invokeai/invokeai-source
-COPY --from=web-builder /build/dist /home/invokeai/invokeai-source/frontend/web/dist
+COPY --from=web-builder --chown=invokeai:invokeai /build/dist /home/invokeai/invokeai-source/frontend/web/dist
 COPY --chown=invokeai:invokeai ./install-invokeai.sh /install-invokeai.sh
 
 USER invokeai
 WORKDIR /home/invokeai
-
-SHELL ["/bin/bash", "-c"]
 
 RUN set -exu \
   && /bin/bash /install-invokeai.sh $GPU_DRIVER
