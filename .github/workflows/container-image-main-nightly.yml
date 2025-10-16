@@ -28,7 +28,7 @@ jobs:
         # - rocm7.0
         - cu126
         - cu128
-        - cu130
+        # - cu130
     runs-on: ubuntu-latest
     name: ${{ matrix.torch-backend }}
     timeout-minutes: 120
