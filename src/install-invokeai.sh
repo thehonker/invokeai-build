@@ -43,7 +43,12 @@ python3 -m venv --prompt invokeai $HOME/.venv
 
 . $HOME/.venv/bin/activate
 
-pip install \
+python3 -m pip install \
+  pip \
+  setuptools \
+  wheel
+
+python3 -m pip install \
   $TORCH_PIP_PRE \
   --index-url "${TORCH_INDEX_URL}" \
   "$HOME/invokeai-source"
