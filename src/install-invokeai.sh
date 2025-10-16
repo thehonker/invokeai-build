@@ -45,9 +45,6 @@ pip install \
   $TORCH_PIP_PRE \
   --upgrade \
     "invokeai @ $HOME/invokeai-source" \
-  --python 3.12 \
-  --python-preference only-managed \
-  --force-reinstall \
   --index-url "${TORCH_INDEX_URL}"
 
 deactivate
