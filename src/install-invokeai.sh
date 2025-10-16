@@ -47,6 +47,15 @@ $HOME/.local/bin/uv \
   pip install \
   $TORCH_PIP_PRE \
   --upgrade \
+    setuptools
+  --python 3.12 \
+  --python-preference only-managed \
+  --force-reinstall
+
+$HOME/.local/bin/uv \
+  pip install \
+  $TORCH_PIP_PRE \
+  --upgrade \
     "invokeai @ $HOME/invokeai-source" \
   --python 3.12 \
   --python-preference only-managed \
