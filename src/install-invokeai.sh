@@ -2,6 +2,8 @@
 
 set -exu
 
+cd $HOME || exit 1
+
 export GPU_DRIVER=$1
 
 export DEBIAN_FRONTEND=noninteractive
@@ -39,13 +41,12 @@ esac
 
 python3 -m venv --prompt invokeai $HOME/.venv
 
-. .venv/bin/activate
+. $HOME/.venv/bin/activate
 
 pip install \
   $TORCH_PIP_PRE \
-  --upgrade \
-    "invokeai @ $HOME/invokeai-source" \
-  --index-url "${TORCH_INDEX_URL}"
+  --index-url "${TORCH_INDEX_URL}" \
+  "$HOME/invokeai-source"
 
 deactivate
 
