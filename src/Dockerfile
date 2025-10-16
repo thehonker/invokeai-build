@@ -35,8 +35,9 @@ RUN set -exu \
     invokeai
 
 # invokeai repo assumed to have been cloned for us
+COPY ./entrypoint.sh /entrypoint.sh
 COPY --chown=invokeai:invokeai ./invokeai /home/invokeai/invokeai
-COPY ./entrypoint.sh /home/invokeai/entrypoint.sh
+COPY --chown=invokeai:invokeai ./install-invokeai.sh /install-invokeai.sh
 
 USER invokeai
 WORKDIR /home/invokeai
@@ -44,13 +45,7 @@ WORKDIR /home/invokeai
 SHELL ["/bin/bash", "-c"]
 
 RUN set -exu \
-  && export DEBIAN_FRONTEND=noninteractive \
-  && pipx install uv \
-  && $HOME/.local/bin/uv venv --relocatable --prompt invoke --python 3.12 --python-preference only-managed .venv \
-  && source .venv/bin/activate \
-  && $HOME/.local/bin/uv pip install --upgrade "invokeai @ $HOME/invokeai" --python 3.12 --python-preference only-managed --torch-backend=$GPU_DRIVER --force-reinstall \
-  && deactivate \
-  && rm -rf $HOME/invokeai
+  && /bin/bash /install-invokeai.sh $GPU_DRIVER
 
 ENTRYPOINT ["/bin/bash"]
-CMD ["/home/invokeai/entrypoint.sh"]
+CMD ["/entrypoint.sh"]
