@@ -25,7 +25,7 @@ jobs:
         - cpu
         - xpu
         - rocm6.3
-        - rocm7.0
+        # - rocm7.0
         - cu126
         - cu128
         - cu130
