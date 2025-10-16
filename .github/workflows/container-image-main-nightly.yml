@@ -93,7 +93,7 @@ jobs:
           tags: |
             type=raw,value=latest,priority=1000,prefix=${{ matrix.torch-backend }}-
             type=schedule,enable=true,priority=900,pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.torch-backend }}-
-            type=raw,value=${{ env.LAST_COMMIT_HASH }},priority=800,prefix=${{ matrix.torch-backend }}-
+            type=raw,value=${{ env.LAST_COMMIT_SHORTHASH }},priority=800,prefix=${{ matrix.torch-backend }}-
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 

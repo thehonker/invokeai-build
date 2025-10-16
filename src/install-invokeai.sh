@@ -43,7 +43,7 @@ pipx install uv
 
 export PATH="$HOME/.local/bin:$PATH"
 
-uv venv --relocatable --prompt invokeai --python 3.12 --python-preference only-managed .venv
+uv venv --relocatable --prompt invokeai --python 3.12 --python-preference only-managed $HOME/.venv
 
 . $HOME/.venv/bin/activate
 
