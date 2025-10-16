@@ -47,7 +47,7 @@ $HOME/.local/bin/uv \
   pip install \
   $TORCH_PIP_PRE \
   --upgrade \
-    setuptools
+    setuptools \
   --python 3.12 \
   --python-preference only-managed \
   --force-reinstall
