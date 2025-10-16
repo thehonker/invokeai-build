@@ -1,0 +1,54 @@
+From 2b0d13df5cf0ed07f1e9644326318b8c65f10848 Mon Sep 17 00:00:00 2001
+From: Edwin Pers <pers.edwin@gmail.com>
+Date: Thu, 16 Oct 2025 09:56:24 -0400
+Subject: [PATCH] patch deps for cu130
+
+---
+ pins.json      | 4 ++--
+ pyproject.toml | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/pins.json b/pins.json
+index 122e6c8..eecec4f 100644
+--- a/pins.json
++++ b/pins.json
+@@ -2,12 +2,12 @@
+   "python": "3.12",
+   "torchIndexUrl": {
+     "win32": {
+-      "cuda": "https://download.pytorch.org/whl/cu128"
++      "cuda": "https://download.pytorch.org/whl/cu130"
+     },
+     "linux": {
+       "cpu": "https://download.pytorch.org/whl/cpu",
+       "rocm": "https://download.pytorch.org/whl/rocm6.3",
+-      "cuda": "https://download.pytorch.org/whl/cu128"
++      "cuda": "https://download.pytorch.org/whl/cu130"
+     },
+     "darwin": {}
+   }
+diff --git a/pyproject.toml b/pyproject.toml
+index ac3d88b..4f02ce4 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -87,7 +87,7 @@ dependencies = [
+ ]
+ 
+ "cpu" = ["torch==2.7.1+cpu", "torchvision==0.22.1+cpu"]
+-"cuda" = ["torch==2.7.1+cu128", "torchvision==0.22.1+cu128"]
++"cuda" = ["torch==torch-2.10.0.dev20251016+cu130", "torchvision==torchvision-0.25.0.dev20251016+cu130"]
+ "rocm" = [
+   "torch==2.7.1+rocm6.3",
+   "torchvision==0.22.1+rocm6.3",
+@@ -149,7 +149,7 @@ explicit = true
+ 
+ [[tool.uv.index]]
+ name = "torch-cuda"
+-url = "https://download.pytorch.org/whl/cu128"
++url = "https://download.pytorch.org/whl/nightly/cu130"
+ explicit = true
+ 
+ [[tool.uv.index]]
+-- 
+2.51.0
+
