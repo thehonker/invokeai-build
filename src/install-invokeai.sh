@@ -45,7 +45,7 @@ $HOME/.local/bin/uv venv --relocatable --prompt invoke --python 3.12 --python-pr
 
 $HOME/.local/bin/uv \
   pip install \
-  "${TORCH_PIP_PRE}" \
+  $TORCH_PIP_PRE \
   --upgrade \
     "invokeai @ $HOME/invokeai-source" \
   --python 3.12 \
