@@ -10,7 +10,7 @@ COPY --chown=node:node ./invokeai/invokeai/frontend/web/ ./
 RUN pnpm install --frozen-lockfile
 RUN npx vite build
 
-FROM docker.io/ubuntu:24.04
+FROM docker.io/nvidia/cuda:12.8.0-runtime-ubuntu24.04
 
 SHELL ["/bin/bash", "-c"]
 
