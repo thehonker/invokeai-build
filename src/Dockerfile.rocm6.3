@@ -10,7 +10,7 @@ COPY --chown=node:node ./invokeai/invokeai/frontend/web/ ./
 RUN pnpm install --frozen-lockfile
 RUN npx vite build
 
-FROM docker.io/ubuntu:24.04
+FROM docker.io/rocm/dev-ubuntu-24.04
 
 SHELL ["/bin/bash", "-c"]
 
@@ -19,39 +19,6 @@ ARG GPU_DRIVER
 ENV GPU_DRIVER=$GPU_DRIVER
 
 USER root
-
-# Register the ROCM package repository, and install rocm-dev package
-ARG ROCM_VERSION=6.3.3
-ARG AMDGPU_VERSION=6.3.3
-
-RUN echo "Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600" | tee /etc/apt/preferences.d/rocm-pin-600
-
-RUN set -exu \
-  && export DEBIAN_FRONTEND=noninteractive \
-  && apt-get update -yq \
-  && apt-get install -yq \
-    --no-install-recommends \
-      ca-certificates \
-      curl \
-      libnuma-dev \
-      gnupg \
-  && curl -sL https://repo.radeon.com/rocm/rocm.gpg.key | apt-key add - \
-  && printf "deb [arch=amd64] https://repo.radeon.com/rocm/apt/$ROCM_VERSION/ noble main" | tee --append /etc/apt/sources.list.d/rocm.list \
-  && printf "deb [arch=amd64] https://repo.radeon.com/amdgpu/$AMDGPU_VERSION/ubuntu noble main" | tee /etc/apt/sources.list.d/amdgpu.list \
-  && apt-get update -yq \
-  && apt-get install -yq \
-    --no-install-recommends \
-      sudo \
-      libelf1 \
-      kmod \
-      file \
-      python3-dev \
-      python3-pip \
-      rocm-dev \
-      rocm-libs \
-      build-essential \
-  && apt-get -yq clean \
-  && rm -rf /var/lib/apt/lists/*
 
 RUN set -exu \
   && export DEBIAN_FRONTEND=noninteractive \
