@@ -6,7 +6,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack use pnpm@10.x && corepack enable
 
 WORKDIR /build
-COPY ./invokeai/frontend/web/ ./
+COPY ./invokeai/invokeai/frontend/web/ ./
 RUN pnpm install --frozen-lockfile
 RUN npx vite build
 
