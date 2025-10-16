@@ -24,6 +24,8 @@ USER root
 ARG ROCM_VERSION=7.0.2
 ARG AMDGPU_VERSION=7.0.2
 
+RUN echo "Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600" | tee /etc/apt/preferences.d/rocm-pin-600
+
 RUN set -exu \
   && export DEBIAN_FRONTEND=noninteractive \
   && apt-get update -yq \
