@@ -25,6 +25,9 @@ case $GPU_DRIVER in
     TORCH_INDEX_URL=https://download.pytorch.org/whl/nightly/rocm7.0
     TORCH_PIP_PRE="--pre"
     ;;
+  xpu)
+    TORCH_INDEX_URL=https://download.pytorch.org/whl/xpu
+    ;;
   cpu)
     TORCH_INDEX_URL=https://download.pytorch.org/whl/cpu
     ;;

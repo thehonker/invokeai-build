@@ -23,6 +23,7 @@ jobs:
       matrix:
         torch-backend:
         - cpu
+        - xpu
         - rocm6.3
         - rocm7.0
         - cu126
