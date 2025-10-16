@@ -69,5 +69,12 @@ SHELL ["/bin/bash", "-c"]
 RUN set -exu \
   && /bin/bash /install-invokeai.sh $GPU_DRIVER
 
+USER root
+
+RUN set -exu \
+  && rm -rf $HOME/invokeai-source
+
+USER invokeai
+
 ENTRYPOINT ["/bin/bash"]
 CMD ["/entrypoint.sh"]

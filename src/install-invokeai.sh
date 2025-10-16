@@ -59,5 +59,3 @@ uv pip install \
   "$HOME/invokeai-source"
 
 deactivate
-
-rm -rf $HOME/invokeai-source
