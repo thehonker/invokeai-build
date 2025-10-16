@@ -23,6 +23,11 @@ RUN set -exu \
     python3-setuptools \
     python3-wheel \
     pipx \
+    libgl1 \
+    libglib2.0-0 \
+    libtcmalloc-minimal4 \
+    bc \
+    pciutils \
   && apt-get -yq clean
 
 RUN set -exu \
