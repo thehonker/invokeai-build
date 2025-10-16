@@ -36,7 +36,7 @@ RUN set -exu \
 
 # invokeai repo assumed to have been cloned for us
 COPY ./entrypoint.sh /entrypoint.sh
-COPY --chown=invokeai:invokeai ./invokeai /home/invokeai/invokeai
+COPY --chown=invokeai:invokeai ./invokeai /home/invokeai/invokeai-source
 COPY --chown=invokeai:invokeai ./install-invokeai.sh /install-invokeai.sh
 
 USER invokeai
