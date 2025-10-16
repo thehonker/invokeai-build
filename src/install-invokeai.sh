@@ -37,23 +37,11 @@ case $GPU_DRIVER in
     ;;
 esac
 
-pipx install uv
-
-$HOME/.local/bin/uv venv --relocatable --prompt invoke --python 3.12 --python-preference only-managed $HOME/.venv
+python3 -m venv --relocatable --prompt invoke --python 3.12 --python-preference only-managed $HOME/.venv
 
 . .venv/bin/activate
 
-$HOME/.local/bin/uv \
-  pip install \
-  $TORCH_PIP_PRE \
-  --upgrade \
-    setuptools \
-  --python 3.12 \
-  --python-preference only-managed \
-  --force-reinstall
-
-$HOME/.local/bin/uv \
-  pip install \
+pip install \
   $TORCH_PIP_PRE \
   --upgrade \
     "invokeai @ $HOME/invokeai-source" \

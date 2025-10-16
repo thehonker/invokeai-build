@@ -20,6 +20,8 @@ RUN set -exu \
     python3 \
     python3-venv \
     python3-pip \
+    python3-setuptools \
+    python3-wheel \
     pipx \
   && apt-get -yq clean
 
