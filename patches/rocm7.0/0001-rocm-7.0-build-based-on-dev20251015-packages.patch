@@ -1,0 +1,50 @@
+From e4836cfa70a8c2eb296a6f3b6bcd2a550989b634 Mon Sep 17 00:00:00 2001
+From: Edwin Pers <pers.edwin@gmail.com>
+Date: Wed, 15 Oct 2025 21:14:13 -0400
+Subject: [PATCH] rocm 7.0 build based on dev20251015 packages
+
+---
+ pins.json      | 2 +-
+ pyproject.toml | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/pins.json b/pins.json
+index 122e6c8..09ba6f8 100644
+--- a/pins.json
++++ b/pins.json
+@@ -6,7 +6,7 @@
+     },
+     "linux": {
+       "cpu": "https://download.pytorch.org/whl/cpu",
+-      "rocm": "https://download.pytorch.org/whl/rocm6.3",
++      "rocm": "https://download.pytorch.org/whl/nightly/rocm7.0",
+       "cuda": "https://download.pytorch.org/whl/cu128"
+     },
+     "darwin": {}
+diff --git a/pyproject.toml b/pyproject.toml
+index ac3d88b..8bb1b5d 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -89,8 +89,8 @@ dependencies = [
+ "cpu" = ["torch==2.7.1+cpu", "torchvision==0.22.1+cpu"]
+ "cuda" = ["torch==2.7.1+cu128", "torchvision==0.22.1+cu128"]
+ "rocm" = [
+-  "torch==2.7.1+rocm6.3",
+-  "torchvision==0.22.1+rocm6.3",
++  "torch==torch-2.10.0.dev20251015+rocm7.0",
++  "torchvision==torchvision-0.25.0.dev20251015+rocm7.0",
+   "pytorch-triton-rocm",
+ ]
+ 
+@@ -154,7 +154,7 @@ explicit = true
+ 
+ [[tool.uv.index]]
+ name = "torch-rocm"
+-url = "https://download.pytorch.org/whl/rocm6.3"
++url = "https://download.pytorch.org/whl/nightly/rocm7.0"
+ explicit = true
+ 
+ [project.scripts]
+-- 
+2.51.0
+
