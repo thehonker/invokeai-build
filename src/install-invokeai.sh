@@ -37,7 +37,7 @@ case $GPU_DRIVER in
     ;;
 esac
 
-python3 -m venv --relocatable --prompt invoke --python 3.12 --python-preference only-managed $HOME/.venv
+python3 -m venv --prompt invokeai $HOME/.venv
 
 . .venv/bin/activate
 
