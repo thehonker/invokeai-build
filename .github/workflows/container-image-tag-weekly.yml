@@ -23,11 +23,11 @@ jobs:
       matrix:
         torch-backend:
         - cpu
-        - xpu
+        # - xpu
         - rocm6.3
         # - rocm7.0
-        - cu126
-        - cu128
+        # - cu126
+        # - cu128
         # - cu130
     runs-on: ubuntu-latest
     name: ${{ matrix.torch-backend }}
@@ -111,3 +111,4 @@ jobs:
           targets: build
           set: |
             build.args.GPU_DRIVER=${{ matrix.torch-backend }}
+            build.dockerfile=Dockerfile.${{ matrix.torch-backend }}
