@@ -20,11 +20,15 @@ spec:
       labels:
         app: invokeai
     spec:
-      runtimeClassName: nvidia-cdi
+      securityContext:
+        fsGroup: 1101
       containers:
       - name: invokeai
         image: ghcr.io/thehonker/invokeai:cu126-latest
         imagePullPolicy: Always
+        securityContext:
+          runAsUser: 1101
+          runAsGroup: 1101
         ports:
         - containerPort: 9090
         resources:

@@ -20,10 +20,15 @@ spec:
       labels:
         app: invokeai
     spec:
+      securityContext:
+        fsGroup: 1101
       containers:
       - name: invokeai
         image: ghcr.io/thehonker/invokeai:rocm6.3-latest
         imagePullPolicy: Always
+        securityContext:
+          runAsUser: 1101
+          runAsGroup: 1101
         ports:
         - containerPort: 9090
         resources:
