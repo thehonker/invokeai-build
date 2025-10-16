@@ -1,5 +1,15 @@
 # syntax=docker/dockerfile:1
 
+FROM docker.io/node:22-slim AS web-builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack use pnpm@10.x && corepack enable
+
+WORKDIR /build
+COPY ./invokeai/frontend/web/ ./
+RUN pnpm install --frozen-lockfile
+RUN npx vite build
+
 FROM docker.io/ubuntu:24.04
 
 ARG GPU_DRIVER
@@ -22,12 +32,16 @@ RUN set -exu \
     python3-pip \
     python3-setuptools \
     python3-wheel \
+    python3-opencv \
+    libopencv-dev \
     pipx \
     libgl1 \
     libglib2.0-0 \
     libtcmalloc-minimal4 \
     bc \
     pciutils \
+    make \
+    build-essential \
   && apt-get -yq clean
 
 RUN set -exu \
@@ -44,6 +58,7 @@ RUN set -exu \
 # invokeai repo assumed to have been cloned for us
 COPY ./entrypoint.sh /entrypoint.sh
 COPY --chown=invokeai:invokeai ./invokeai /home/invokeai/invokeai-source
+COPY --from=web-builder /build/dist /home/invokeai/invokeai-source/frontend/web/dist
 COPY --chown=invokeai:invokeai ./install-invokeai.sh /install-invokeai.sh
 
 USER invokeai

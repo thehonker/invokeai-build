@@ -19,6 +19,7 @@ case $GPU_DRIVER in
     ;;
   cu130)
     TORCH_INDEX_URL=https://download.pytorch.org/whl/nightly/cu130
+    TORCH_PIP_PRE="--pre"
     ;;
   rocm6.3)
     TORCH_INDEX_URL=https://download.pytorch.org/whl/rocm6.3
@@ -46,6 +47,11 @@ export PATH="$HOME/.local/bin:$PATH"
 uv venv --relocatable --prompt invokeai --python 3.12 --python-preference only-managed $HOME/.venv
 
 . $HOME/.venv/bin/activate
+
+uv pip install \
+  $TORCH_PIP_PRE \
+  --torch-backend "${GPU_DRIVER}" \
+  pypatchmatch
 
 uv pip install \
   $TORCH_PIP_PRE \

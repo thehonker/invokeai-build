@@ -93,6 +93,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           tags: |
+            type=raw,value=stable,priority=1000,prefix=${{ matrix.torch-backend }}-
             type=raw,value=${{ env.LAST_TAG }},priority=100,prefix=${{ matrix.torch-backend }}-
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
