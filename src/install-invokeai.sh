@@ -69,8 +69,15 @@ git clone https://github.com/bitsandbytes-foundation/bitsandbytes.git && cd $HOM
 
 # Compile & install
 # Use -DBNB_ROCM_ARCH="gfx90a;gfx942" to target specific gpu arch
-cmake $( [[ -n ${BNB_BACKEND} ]] && echo "-DCOMPUTE_BACKEND=${BNB_BACKEND}") -S .
+cmake \
+  $( [[ -n ${BNB_BACKEND} ]] && echo "-DCOMPUTE_BACKEND=${BNB_BACKEND}") \
+  $( [[ ${BNB_BACKEND} == "hip" ]] && echo "-DBNB_ROCM_ARCH=gfx900;gfx906;gfx908;gfx90a;gfx940;gfx941;gfx942") \
+  -Wno-dev \
+  -S \
+  .
+
 make
+
 uv pip install .
 
 deactivate
