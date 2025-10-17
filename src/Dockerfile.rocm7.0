@@ -38,6 +38,10 @@ RUN set -exu \
     hipblas-common-dev \
     hipblas-dev \
     hipblaslt \
+    hiprand \
+    hiprand-dev \
+    libhiprand-dev \
+    libhiprand1 \
     libgl1 \
     libglib2.0-0 \
     libhipblas-dev \

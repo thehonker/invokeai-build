@@ -36,6 +36,8 @@ RUN set -exu \
     libopenblas64-dev \
     libcublas12 \
     libcublaslt12 \
+    libcurand10 \
+    libhiprand1 \
     libgl1 \
     libglib2.0-0 \
     libhipblas-dev \
