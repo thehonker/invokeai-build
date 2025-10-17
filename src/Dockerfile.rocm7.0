@@ -25,25 +25,26 @@ RUN set -exu \
   && apt-get -yq update \
   && apt-get -yq install \
     bash \
+    bc \
+    build-essential \
+    cmake \
     curl \
-    nano \
-    wget \
     git \
-    python3 \
-    python3-venv \
-    python3-pip \
-    python3-setuptools \
-    python3-wheel \
-    python3-opencv \
-    libopencv-dev \
-    pipx \
     libgl1 \
     libglib2.0-0 \
+    libopencv-dev \
     libtcmalloc-minimal4 \
-    bc \
-    pciutils \
     make \
-    build-essential \
+    nano \
+    pciutils \
+    pipx \
+    python3 \
+    python3-opencv \
+    python3-pip \
+    python3-setuptools \
+    python3-venv \
+    python3-wheel \
+    wget \
   && apt-get -yq clean \
   && rm -rf /var/lib/apt/lists/*
 
@@ -57,7 +58,8 @@ RUN set -exu \
     --disabled-password \
     --gecos invokeai \
     invokeai \
-  && usermod -a -G render invokeai
+  && usermod -a -G render invokeai \
+  && usermod -a -G video invokeai
 
 # invokeai repo assumed to have been cloned for us
 COPY ./entrypoint.sh /entrypoint.sh
