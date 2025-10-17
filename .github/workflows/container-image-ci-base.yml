@@ -39,7 +39,7 @@ jobs:
         # /dev/sda1        74G   28K   70G   1% /mnt
         # According to some online posts the /mnt is not always there, so checking before setting docker to use it
         run: |
-          if [ mountpoint -q /mnt ]; then
+          if mountpoint -q /mnt; then
             sudo mkdir -pv /mnt/docker-root
             sudo chmod -R 777 /mnt
             echo '{"data-root": "/mnt/docker-root"}' | sudo tee /etc/docker/daemon.json
