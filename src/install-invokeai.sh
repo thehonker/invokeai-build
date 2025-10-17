@@ -81,6 +81,9 @@ uv pip install \
 # make \
 #   -Wno-dev
 
-uv pip install --force-reinstall https://github.com/bitsandbytes-foundation/bitsandbytes/releases/download/continuous-release_main/bitsandbytes-1.33.7.preview-py3-none-manylinux_2_24_x86_64.whl
+UV_SKIP_WHEEL_FILENAME_CHECK=1 \
+  uv pip install \
+  --force-reinstall \
+  https://github.com/bitsandbytes-foundation/bitsandbytes/releases/download/continuous-release_main/bitsandbytes-1.33.7.preview-py3-none-manylinux_2_24_x86_64.whl
 
 deactivate
