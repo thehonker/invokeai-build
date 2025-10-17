@@ -56,12 +56,9 @@ uv venv --relocatable --prompt invokeai --python 3.12 --python-preference only-m
 uv pip install \
   $TORCH_PIP_PRE \
   --torch-backend "${GPU_DRIVER}" \
+  "$HOME/invokeai-source" \
+  https://github.com/bitsandbytes-foundation/bitsandbytes/releases/download/continuous-release_main/bitsandbytes-1.33.7.preview-py3-none-manylinux_2_24_x86_64.whl \
   pypatchmatch
-
-uv pip install \
-  $TORCH_PIP_PRE \
-  --torch-backend "${GPU_DRIVER}" \
-  "$HOME/invokeai-source"
 
 # Install bitsandbytes from source
 # Clone bitsandbytes repo
@@ -80,10 +77,5 @@ uv pip install \
 # 
 # make \
 #   -Wno-dev
-
-UV_SKIP_WHEEL_FILENAME_CHECK=1 \
-  uv pip install \
-  --force-reinstall \
-  https://github.com/bitsandbytes-foundation/bitsandbytes/releases/download/continuous-release_main/bitsandbytes-1.33.7.preview-py3-none-manylinux_2_24_x86_64.whl
 
 deactivate
