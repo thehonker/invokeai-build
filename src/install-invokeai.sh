@@ -75,11 +75,11 @@ git checkout "${BNB_GIT_REF}"
 # Use -DBNB_ROCM_ARCH="gfx90a;gfx942" to target specific gpu arch
 cmake \
   $( [[ -n ${BNB_BACKEND} ]] && echo "-DCOMPUTE_BACKEND=${BNB_BACKEND}") \
-  -Wno-dev \
   -S \
   .
 
-make
+make \
+  -Wno-dev
 
 uv pip install .
 
