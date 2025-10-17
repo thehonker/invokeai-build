@@ -1,4 +1,4 @@
-name: InvokeAI Docker Image Build - ROCM 6.3 - Nightly
+name: InvokeAI - ROCM 6.3 - Nightly
 on:
   push:
     branches:

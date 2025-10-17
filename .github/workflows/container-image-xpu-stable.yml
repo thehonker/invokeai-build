@@ -1,4 +1,4 @@
-name: InvokeAI Docker Image Build - XPU - Stable
+name: InvokeAI - XPU - Stable
 on:
   push:
     branches:

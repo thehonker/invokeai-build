@@ -1,4 +1,4 @@
-name: InvokeAI Docker Image Build - ROCM 6.3 - Stable
+name: InvokeAI - ROCM 6.3 - Stable
 on:
   push:
     branches:

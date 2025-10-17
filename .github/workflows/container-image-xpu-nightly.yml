@@ -1,4 +1,4 @@
-name: InvokeAI Docker Image Build - XPU - Nightly
+name: InvokeAI - XPU - Nightly
 on:
   push:
     branches:

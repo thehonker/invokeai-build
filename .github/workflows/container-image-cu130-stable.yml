@@ -1,4 +1,4 @@
-name: InvokeAI Docker Image Build - CUDA 13.0.x - Stable
+name: InvokeAI - CUDA 13.0.x - Stable
 on:
   push:
     branches:

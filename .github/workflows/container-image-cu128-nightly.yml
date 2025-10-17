@@ -1,4 +1,4 @@
-name: InvokeAI Docker Image Build - CUDA 12.8.x - Nightly
+name: InvokeAI - CUDA 12.8.x - Nightly
 on:
   push:
     branches:
