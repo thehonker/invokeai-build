@@ -10,7 +10,7 @@ COPY --chown=node:node ./invokeai/invokeai/frontend/web/ ./
 RUN pnpm install --frozen-lockfile
 RUN npx vite build
 
-FROM docker.io/intel/intel-optimized-pytorch:2.3.110-xpu
+FROM docker.io/nvidia/cuda:12.8.0-runtime-ubuntu24.04
 
 SHELL ["/bin/bash", "-c"]
 
@@ -30,6 +30,19 @@ RUN set -exu \
     cmake \
     curl \
     git \
+    libcublas12 \
+    libcublaslt12 \
+    libcurand10 \
+    libcusparse12 \
+    libgl1 \
+    libglib2.0-0 \
+    libhipblas-dev \
+    libhipblas0 \
+    libhiprand1 \
+    libhipsparse-dev \
+    libhipsparse0 \
+    libnvjitlink12 \
+    libnvvm4 \
     libopenblas-dev \
     libopenblas0 \
     libopenblas64-0 \
@@ -38,6 +51,8 @@ RUN set -exu \
     libtcmalloc-minimal4 \
     make \
     nano \
+    nvidia-cuda-toolkit \
+    nvidia-cuda-toolkit-gcc \
     pciutils \
     pipx \
     python3 \
