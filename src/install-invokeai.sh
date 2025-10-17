@@ -53,7 +53,7 @@ uv venv --relocatable --prompt invokeai --python 3.12 --python-preference only-m
 
 . $HOME/.venv/bin/activate
 
-uv pip install \
+UV_SKIP_WHEEL_FILENAME_CHECK=1 uv pip install \
   $TORCH_PIP_PRE \
   --torch-backend "${GPU_DRIVER}" \
   "$HOME/invokeai-source" \
