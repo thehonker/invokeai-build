@@ -14,6 +14,9 @@ concurrency:
 
 jobs:
   build-and-push:
+    permissions:
+      contents: read
+      packages: write
     uses: ./.github/workflows/container-image-ci-base.yml
     with:
       gpu-driver: rocm6.3
