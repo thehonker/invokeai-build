@@ -38,6 +38,10 @@ RUN set -exu \
     libcublaslt12 \
     libcurand10 \
     libhiprand1 \
+    libnvjitlink12 \
+    libnvvm4 \
+    nvidia-cuda-toolkit \
+    nvidia-cuda-toolkit-gcc \
     libgl1 \
     libglib2.0-0 \
     libhipblas-dev \
