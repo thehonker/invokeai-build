@@ -30,8 +30,18 @@ RUN set -exu \
     cmake \
     curl \
     git \
+    libopenblas-dev \
+    libopenblas0 \
+    libopenblas64-0 \
+    libopenblas64-dev \
+    hipblas \
+    hipblas-common-dev \
+    hipblas-dev \
+    hipblaslt \
     libgl1 \
     libglib2.0-0 \
+    libhipblas-dev \
+    libhipblas0 \
     libopencv-dev \
     libtcmalloc-minimal4 \
     make \

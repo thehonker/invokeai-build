@@ -30,8 +30,10 @@ RUN set -exu \
     cmake \
     curl \
     git \
-    libgl1 \
-    libglib2.0-0 \
+    libopenblas-dev \
+    libopenblas0 \
+    libopenblas64-0 \
+    libopenblas64-dev \
     libopencv-dev \
     libtcmalloc-minimal4 \
     make \
@@ -45,7 +47,8 @@ RUN set -exu \
     python3-venv \
     python3-wheel \
     wget \
-  && apt-get -yq clean
+  && apt-get -yq clean \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN set -exu \
   && addgroup \
@@ -56,9 +59,7 @@ RUN set -exu \
     --ingroup invokeai \
     --disabled-password \
     --gecos invokeai \
-    invokeai \
-  && usermod -a -G render invokeai \
-  && usermod -a -G video invokeai
+    invokeai
 
 # invokeai repo assumed to have been cloned for us
 COPY ./entrypoint.sh /entrypoint.sh

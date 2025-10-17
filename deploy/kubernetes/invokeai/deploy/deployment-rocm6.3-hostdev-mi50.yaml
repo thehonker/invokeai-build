@@ -34,13 +34,20 @@ spec:
         resources:
           limits:
             hostdev.k8s.io/dev_kfd: 1
-            hostdev.k8s.io/dev_dri_by-path_pci-0000_05_00.0-card: 1
-            hostdev.k8s.io/dev_dri_by-path_pci-0000_05_00.0-render: 1
+            hostdev.k8s.io/dev_dri: 1
         env:
-        - name: ROCR_VISIBLE_DEVICES
-          value: "0"
+        - name: GPU_DRIVER
+          value: "rocm"
+        - name: AMD_VISIBLE_DEVICES
+          value: all
         - name: HCC_AMDGPU_TARGET
           value: "gfx906"
+        - name: PYTORCH_ROCM_ARCH
+          value: "gfx906"
+        - name: PYTORCH_HIP_ALLOC_CONF
+          value: "expandable_segments:True"
+        - name: TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL
+          value: "1"
         - name: HSA_OVERRIDE_GFX_VERSION
           value: "9.0.6"
         - name: INVOKEAI_HOST
@@ -87,7 +94,7 @@ spec:
     requests:
       storage: 128Gi
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
 
 ---
 apiVersion: v1
@@ -131,9 +138,7 @@ spec:
   routes:
   - kind: Rule
     match: Host(`invokeai.your.domain`)
-    middlewares:
-    - name: authentik
-      namespace: authentik
+    middlewares: []
     services:
     - name: invokeai
       port: 9090
