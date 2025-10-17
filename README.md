@@ -9,19 +9,23 @@ thehonker's builds of invokeai
 #### Latest nightly build
 
 ```none
-ghcr.io/thehonker/invokeai:cpu-latest     # for cpu
-ghcr.io/thehonker/invokeai:rocm6.3-latest # for amd
-ghcr.io/thehonker/invokeai:cu126-latest   # for nvidia p40 and similar
-ghcr.io/thehonker/invokeai:cu128-latest   # for modern nvidia
+ghcr.io/thehonker/invokeai:cpu-latest        # for cpu
+ghcr.io/thehonker/invokeai:xpu-latest        # for intel gpu
+ghcr.io/thehonker/invokeai:rocm6.3-latest    # for amd
+ghcr.io/thehonker/invokeai:cu126-latest      # for nvidia p40 and similar
+ghcr.io/thehonker/invokeai:cu128-latest      # for modern nvidia
+ghcr.io/thehonker/invokeai:cu130-latest      # for latest nvidia
 ```
 
 #### Upstream Git Tags
 
 ```none
-ghcr.io/thehonker/invokeai:cpu-v6.8.0     # for cpu
-ghcr.io/thehonker/invokeai:rocm6.3-v6.8.0 # for amd
-ghcr.io/thehonker/invokeai:cu126-v6.8.0   # for nvidia p40 and similar
-ghcr.io/thehonker/invokeai:cu128-v6.8.0   # for modern nvidia
+ghcr.io/thehonker/invokeai:cpu-v6.9.0        # for cpu
+ghcr.io/thehonker/invokeai:xpu-v6.9.0        # for intel gpu
+ghcr.io/thehonker/invokeai:rocm6.3-v6.9.0    # for amd
+ghcr.io/thehonker/invokeai:cu126-v6.9.0      # for nvidia p40 and similar
+ghcr.io/thehonker/invokeai:cu128-v6.9.0      # for modern nvidia
+ghcr.io/thehonker/invokeai:cu130-v6.9.0      # for latest nvidia
 ```
 
 ### Storage

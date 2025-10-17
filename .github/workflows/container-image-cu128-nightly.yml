@@ -1,0 +1,20 @@
+name: InvokeAI Docker Image Build - CUDA 12.8.x - Nightly
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # 00:00 on Sunday
+    - cron: "0 0 * * *"
+  workflow_dispatch: {}
+
+concurrency:
+  group: "invokeai-nightly-cu128"
+  cancel-in-progress: false
+
+jobs:
+  build-and-push:
+    uses: ./.github/workflows/container-image-ci-base.yml
+    with:
+      gpu-driver: cu128
+      build-type: hash

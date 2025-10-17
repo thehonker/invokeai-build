@@ -1,36 +1,26 @@
-name: InvokeAI Image Build - Main Branch - Nightly
+name: InvokeAI Docker Image Build
 on:
-  push:
-    branches:
-      - main
-  schedule:
-    # 00:00 every day
-    - cron: "0 0 * * *"
-  workflow_dispatch: {}
+  workflow_call:
+    inputs:
+      gpu-driver:
+        required: true
+        type: string
+      build-type:
+        required: true
+        type: string
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: thehonker/invokeai
 
 concurrency:
-  group: "invokeai-nightly"
+  group: "invokeai"
   cancel-in-progress: false
 
 jobs:
   build-and-push:
-    strategy:
-      fail-fast: false
-      matrix:
-        torch-backend:
-        - cpu
-        # - xpu
-        - rocm6.3
-        # - rocm7.0
-        # - cu126
-        # - cu128
-        # - cu130
     runs-on: ubuntu-latest
-    name: ${{ matrix.torch-backend }}
+    name: ${{ inputs.gpu-driver }}
     timeout-minutes: 120
     permissions:
       contents: read
@@ -76,10 +66,22 @@ jobs:
 
       - name: Clone invokeai repo, apply any patches
         run: |
-          git clone --depth=1 --single-branch --branch main https://github.com/invoke-ai/InvokeAI.git "${{ github.workspace }}/src/invokeai"
-          echo "LAST_COMMIT_SHORTHASH=$(cd "${{ github.workspace }}/src/invokeai" && git --no-pager log -n 1 --pretty=format:"%h")" >> "$GITHUB_ENV"
+          # Clone repo
+          git clone --depth=20 --single-branch --branch main https://github.com/invoke-ai/InvokeAI.git "${{ github.workspace }}/src/invokeai"
+
+          # Determine tag to apply to container image
+          if [[ ${{ inputs.build-type }} == "tag" ]]; then
+            GIT_REF="$(cd "${{ github.workspace }}/src/invokeai" && git describe --tags --abbrev=0)"
+            echo "GIT_REF=${GIT_REF}" >> "$GITHUB_ENV"
+          else
+            GIT_REF="$(cd "${{ github.workspace }}/src/invokeai" && git --no-pager log -n 1 --pretty=format:"%h")"
+            echo "GIT_REF=${GIT_REF}" >> "$GITHUB_ENV"
+          fi
+
+          # Apply patches
           cd "${{ github.workspace }}/src/invokeai"
-          for patch in "${{ github.workspace }}/patches/${{ matrix.torch-backend }}/"*.patch; do
+          git checkout "${GIT_REF}"
+          for patch in "${{ github.workspace }}/patches/${{ inputs.gpu-driver }}/"*.patch; do
             if test -f "$patch"; then
               echo "Applying patch $patch"
               git -C "${{ github.workspace }}/src/invokeai" apply "$patch"
@@ -91,9 +93,10 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           tags: |
-            type=raw,value=latest,priority=1000,prefix=${{ matrix.torch-backend }}-
-            type=schedule,enable=true,priority=900,pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.torch-backend }}-
-            type=raw,value=${{ env.LAST_COMMIT_SHORTHASH }},priority=800,prefix=${{ matrix.torch-backend }}-
+            type=raw,value=latest,priority=1000,prefix=${{ inputs.gpu-driver }}-,enable=${{ inputs.build-type == 'hash' }}
+            type=raw,value=stable,priority=1000,prefix=${{ inputs.gpu-driver }}-,enable=${{ inputs.build-type == 'tag' }}
+            type=schedule,enable=true,priority=900,pattern={{date 'YYYYMMDD'}},prefix=${{ inputs.gpu-driver }}-
+            type=raw,value=${{ env.GIT_REF }},priority=800,prefix=${{ inputs.gpu-driver }}-
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
@@ -109,5 +112,5 @@ jobs:
             cwd://${{ steps.meta.outputs.bake-file }}
           targets: build
           set: |
-            build.args.GPU_DRIVER=${{ matrix.torch-backend }}
-            build.dockerfile=Dockerfile.${{ matrix.torch-backend }}
+            build.args.GPU_DRIVER=${{ inputs.gpu-driver }}
+            build.dockerfile=Dockerfile.${{ inputs.gpu-driver }}
