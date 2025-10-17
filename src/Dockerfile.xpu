@@ -10,7 +10,7 @@ COPY --chown=node:node ./invokeai/invokeai/frontend/web/ ./
 RUN pnpm install --frozen-lockfile
 RUN npx vite build
 
-FROM docker.io/intel/intel-optimized-pytorch:2.3.110-xpu
+FROM docker.io/intel/intel-extension-for-pytorch:2.8.10-xpu
 
 SHELL ["/bin/bash", "-c"]
 
