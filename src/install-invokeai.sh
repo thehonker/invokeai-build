@@ -65,22 +65,22 @@ uv pip install \
 
 # Install bitsandbytes from source
 # Clone bitsandbytes repo
-git clone --depth=20 https://github.com/bitsandbytes-foundation/bitsandbytes.git $HOME/bitsandbytes
-cd $HOME/bitsandbytes
+# git clone --depth=20 https://github.com/bitsandbytes-foundation/bitsandbytes.git $HOME/bitsandbytes
+# cd $HOME/bitsandbytes
+# 
+# BNB_GIT_REF="$(git describe --tags --abbrev=0)"
+# git checkout "${BNB_GIT_REF}"
+# 
+# # Compile & install
+# # Use -DBNB_ROCM_ARCH="gfx90a;gfx942" to target specific gpu arch
+# cmake \
+#   $( [[ -n ${BNB_BACKEND} ]] && echo "-DCOMPUTE_BACKEND=${BNB_BACKEND}") \
+#   -S \
+#   .
+# 
+# make \
+#   -Wno-dev
 
-BNB_GIT_REF="$(git describe --tags --abbrev=0)"
-git checkout "${BNB_GIT_REF}"
-
-# Compile & install
-# Use -DBNB_ROCM_ARCH="gfx90a;gfx942" to target specific gpu arch
-cmake \
-  $( [[ -n ${BNB_BACKEND} ]] && echo "-DCOMPUTE_BACKEND=${BNB_BACKEND}") \
-  -S \
-  .
-
-make \
-  -Wno-dev
-
-uv pip install .
+uv pip install --force-reinstall https://github.com/bitsandbytes-foundation/bitsandbytes/releases/download/continuous-release_main/bitsandbytes-1.33.7.preview-py3-none-manylinux_2_24_x86_64.whl
 
 deactivate
