@@ -56,6 +56,6 @@ You should mount persistent storage to this directory, ***OR*** set the env var 
 
 ### Configuration
 
-All args to `/home/invokeai/entrypoint.sh` are passed to `invokeai-web`, as are all envvars.
+All args to `/entrypoint.sh` are passed to `invokeai-web`, as are all envvars.
 
 See <https://invoke-ai.github.io/InvokeAI/configuration/> for details on configuration.
