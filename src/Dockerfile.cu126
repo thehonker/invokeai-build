@@ -30,26 +30,29 @@ RUN set -exu \
     cmake \
     curl \
     git \
-    libopenblas-dev \
-    libopenblas0 \
-    libopenblas64-0 \
-    libopenblas64-dev \
     libcublas12 \
     libcublaslt12 \
     libcurand10 \
-    libhiprand1 \
-    libnvjitlink12 \
-    libnvvm4 \
-    nvidia-cuda-toolkit \
-    nvidia-cuda-toolkit-gcc \
+    libcusparse12 \
     libgl1 \
     libglib2.0-0 \
     libhipblas-dev \
     libhipblas0 \
+    libhiprand1 \
+    libhipsparse-dev \
+    libhipsparse0 \
+    libnvjitlink12 \
+    libnvvm4 \
+    libopenblas-dev \
+    libopenblas0 \
+    libopenblas64-0 \
+    libopenblas64-dev \
     libopencv-dev \
     libtcmalloc-minimal4 \
     make \
     nano \
+    nvidia-cuda-toolkit \
+    nvidia-cuda-toolkit-gcc \
     pciutils \
     pipx \
     python3 \

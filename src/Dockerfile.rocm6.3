@@ -30,22 +30,28 @@ RUN set -exu \
     cmake \
     curl \
     git \
-    libopenblas-dev \
-    libopenblas0 \
-    libopenblas64-0 \
-    libopenblas64-dev \
     hipblas \
     hipblas-common-dev \
     hipblas-dev \
     hipblaslt \
     hiprand \
     hiprand-dev \
-    libhiprand-dev \
-    libhiprand1 \
+    hipsparse \
+    hipsparse-dev \
+    hipsparselt \
+    hipsparselt-dev \
     libgl1 \
     libglib2.0-0 \
     libhipblas-dev \
     libhipblas0 \
+    libhiprand-dev \
+    libhiprand1 \
+    libhipsparse-dev \
+    libhipsparse0 \
+    libopenblas-dev \
+    libopenblas0 \
+    libopenblas64-0 \
+    libopenblas64-dev \
     libopencv-dev \
     libtcmalloc-minimal4 \
     make \
@@ -58,6 +64,7 @@ RUN set -exu \
     python3-setuptools \
     python3-venv \
     python3-wheel \
+    rocm-utils \
     wget \
   && apt-get -yq clean \
   && rm -rf /var/lib/apt/lists/*
